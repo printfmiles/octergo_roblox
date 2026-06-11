@@ -29,7 +29,10 @@ pnpm install
 # Copy environment variables
 cp .env.example .env
 
-# Configure Supabase URLs in .env (DATABASE_URL + DIRECT_URL)
+# Configure Supabase URLs in .env (see docs/supabase-setup.md)
+
+# Verify database connection
+pnpm db:check
 
 # Run migrations and generate Prisma client
 pnpm db:generate

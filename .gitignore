@@ -5,9 +5,11 @@ node_modules/
 dist/
 build/
 
-# Environment variables (CRITICAL)
+# Environment variables (CRITICAL — root .env only)
 .env
 .env.*.local
+packages/database/.env
+packages/**/.env
 
 # Logs
 *.log
@@ -24,6 +26,12 @@ coverage/
 
 # TypeScript build cache
 *.tsbuildinfo
+
+# Accidental compile output in package src/
+packages/*/src/**/*.js
+packages/*/src/**/*.d.ts
+packages/*/src/**/*.js.map
+packages/*/src/**/*.d.ts.map
 
 # Turbo / build cache
 .turbo/

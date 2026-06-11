@@ -1,4 +1,4 @@
-import { SubscriptionPlan } from '../enums';
+import { SubscriptionPlan } from '../enums/index.ts';
 
 export const PLAN_LIMITS = {
   [SubscriptionPlan.STARTER]: {

@@ -21,11 +21,19 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
     (headers as Record<string, string>)['Authorization'] = `Bearer ${token}`;
   }
 
-  const res = await fetch(`${API_URL}${path}`, { ...options, headers });
+  let res: Response;
+  try {
+    res = await fetch(`${API_URL}${path}`, { ...options, headers });
+  } catch {
+    throw new ApiError(0, 'Cannot reach the API. Is the backend running?');
+  }
 
   if (!res.ok) {
     const body = await res.json().catch(() => ({ message: res.statusText }));
-    throw new ApiError(res.status, body.message ?? 'Request failed');
+    const message = Array.isArray(body.message)
+      ? body.message.join(', ')
+      : (body.message ?? 'Request failed');
+    throw new ApiError(res.status, message);
   }
 
   return res.json() as Promise<T>;

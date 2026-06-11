@@ -4,7 +4,7 @@ import type {
   SessionStatus,
   SubscriptionPlan,
   VerificationStatus,
-} from '../enums';
+} from '../enums/index.ts';
 
 export interface ApiResponse<T> {
   data: T;

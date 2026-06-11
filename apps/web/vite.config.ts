@@ -5,9 +5,10 @@ import path from 'node:path';
 export default defineConfig({
   plugins: [react()],
   resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
     alias: {
       '@': path.resolve(__dirname, './src'),
-      '@octergo/shared': path.resolve(__dirname, '../../packages/shared/src'),
+      '@octergo/shared': path.resolve(__dirname, '../../packages/shared/src/index.ts'),
     },
   },
   server: {

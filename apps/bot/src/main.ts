@@ -1,3 +1,4 @@
+import './env-bootstrap';
 import { createClient, loginClient } from './client';
 import { registerInteractionHandler } from './handlers/interaction.handler';
 import { registerErrorHandler } from './handlers/error.handler';

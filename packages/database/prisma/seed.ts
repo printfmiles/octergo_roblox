@@ -1,3 +1,8 @@
+import path from 'node:path';
+import { config } from 'dotenv';
+
+config({ path: path.resolve(__dirname, '../../../.env') });
+
 import { PrismaClient, SubscriptionPlan } from '@prisma/client';
 
 const prisma = new PrismaClient();
