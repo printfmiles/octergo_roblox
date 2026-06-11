@@ -1,42 +1,75 @@
-import { Shell } from '../layouts/Shell';
-import { PageHeader } from '../components/PageHeader';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthShell } from '../components/auth/AuthShell';
+import { GradBtn } from '../components/auth/GradBtn';
+import { Steps } from '../components/auth/Steps';
 
 export function VerifyDiscordPage() {
+  const navigate = useNavigate();
+
   return (
-    <Shell>
-      <div style={{ maxWidth: 480, margin: '4rem auto', padding: '0 1.5rem' }}>
-        <PageHeader
-          title="Verify Discord account"
-          subtitle="Use the /verify command in your Discord server or connect via OAuth."
-        />
-        <div
-          style={{
-            padding: '1.5rem',
-            borderRadius: 12,
-            background: 'rgba(255,255,255,0.04)',
-            border: '1px solid rgba(255,255,255,0.08)',
-          }}
-        >
-          <p style={{ color: '#94a3b8', fontSize: 14, margin: '0 0 1rem' }}>
-            Run <code>/verify</code> in your linked Discord server to complete verification.
-          </p>
-          <Link
-            to="/select-plan"
-            style={{
-              display: 'inline-block',
-              padding: '10px 20px',
-              borderRadius: 10,
-              background: 'linear-gradient(135deg,#c084fc,#818cf8)',
-              color: '#fff',
-              fontWeight: 700,
-              fontSize: 14,
-            }}
-          >
-            Continue to plan selection
-          </Link>
-        </div>
+    <AuthShell>
+      <h2 className="auth-title">Verify Discord account</h2>
+      <p className="auth-subtitle">Step 3 of 3 — Link your Discord profile</p>
+      <Steps current={3} />
+
+      <div className="verify-card">
+        <p className="verify-card__text">
+          Run <code className="verify-card__code">/verify</code> in your linked Discord server with
+          your Roblox username to complete verification.
+        </p>
+        <GradBtn type="button" onClick={() => navigate('/select-plan')}>
+          Continue to plan selection →
+        </GradBtn>
       </div>
-    </Shell>
+
+      <p className="auth-footer auth-footer--muted">
+        <Link to="/verify/roblox">← Back to Roblox verification</Link>
+      </p>
+
+      <style>{`
+        .auth-title {
+          font-size: 22px;
+          font-weight: 800;
+          color: #fff;
+          margin: 0 0 4px;
+          letter-spacing: -0.5px;
+        }
+        .auth-subtitle {
+          font-size: 13px;
+          color: #64748b;
+          margin: 0 0 20px;
+        }
+        .verify-card {
+          padding: 1.25rem;
+          border-radius: 12px;
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .verify-card__text {
+          color: #94a3b8;
+          font-size: 14px;
+          margin: 0 0 1rem;
+          line-height: 1.6;
+        }
+        .verify-card__code {
+          padding: 2px 6px;
+          border-radius: 6px;
+          background: rgba(167, 139, 250, 0.15);
+          color: #c084fc;
+          font-size: 13px;
+        }
+        .auth-footer {
+          text-align: center;
+          margin-top: 14px;
+          font-size: 13px;
+        }
+        .auth-footer--muted a {
+          color: #475569;
+        }
+        .auth-footer--muted a:hover {
+          color: #94a3b8;
+        }
+      `}</style>
+    </AuthShell>
   );
 }
