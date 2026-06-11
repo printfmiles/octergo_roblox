@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { SubscriptionPlan } from '@prisma/client';
 import { PrismaService } from '@octergo/database';
-import { PLAN_LIMITS } from '@octergo/shared';
+import { PLAN_LIMITS, SubscriptionPlan } from '@octergo/shared';
 
 @Injectable()
 export class SubscriptionsService {
@@ -9,7 +8,7 @@ export class SubscriptionsService {
 
   async getLimits(userId: string) {
     const subscription = await this.prisma.subscription.findUnique({ where: { userId } });
-    const plan = subscription?.plan ?? SubscriptionPlan.STARTER;
+    const plan = (subscription?.plan ?? SubscriptionPlan.STARTER) as SubscriptionPlan;
     return PLAN_LIMITS[plan];
   }
 }

@@ -13,7 +13,7 @@ export async function verifyCommand(interaction: ChatInputCommandInteraction) {
 
   const robloxUsername = interaction.options.getString('roblox_username', true);
 
-  const result = await backendApi.post<{ verified: boolean }>('/verify', {
+  const result = await backendApi.post<{ verified: boolean; message?: string }>('/verify', {
     discordUserId: interaction.user.id,
     robloxUsername,
   });
@@ -21,6 +21,6 @@ export async function verifyCommand(interaction: ChatInputCommandInteraction) {
   await interaction.editReply(
     result.verified
       ? `Verified **${robloxUsername}** successfully!`
-      : 'Verification failed. Please check your username and try again.',
+      : result.message ?? 'Verification failed. Please check your username and try again.',
   );
 }

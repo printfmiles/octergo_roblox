@@ -1,2 +1,6 @@
-export { PrismaClient } from '@prisma/client';
+export {
+  PrismaClient,
+  ModerationAction,
+  SubscriptionPlan,
+} from '@prisma/client';
 export * from './prisma.service';

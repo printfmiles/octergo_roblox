@@ -20,7 +20,7 @@ export class RobloxApiService {
       },
     );
     if (!res.ok) return null;
-    const data = await res.json();
+    const data = (await res.json()) as { data?: Array<{ id: number; name: string }> };
     return data.data?.[0] ?? null;
   }
 }

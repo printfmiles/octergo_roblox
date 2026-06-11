@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ModerationAction } from '@prisma/client';
-import { PrismaService } from '@octergo/database';
+import { ModerationAction, PrismaService } from '@octergo/database';
 
 @Injectable()
 export class AuditLogsService {

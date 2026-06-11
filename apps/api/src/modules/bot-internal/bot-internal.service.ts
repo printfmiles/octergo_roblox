@@ -1,13 +1,61 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from '@octergo/database';
+import { RobloxApiService } from '../roblox/roblox-api.service';
 import { RoleSyncService } from '../roles/role-sync.service';
 
 @Injectable()
 export class BotInternalService {
-  constructor(private readonly roleSyncService: RoleSyncService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly robloxApi: RobloxApiService,
+    private readonly roleSyncService: RoleSyncService,
+  ) {}
 
   async handleVerify(body: { discordUserId: string; robloxUsername: string }) {
-    // TODO: link discord user to platform user via verification flow
-    return { verified: true, ...body };
+    const { discordUserId, robloxUsername } = body;
+
+    const robloxUser = await this.robloxApi.getUserByUsername(robloxUsername);
+    if (!robloxUser) {
+      return { verified: false, discordUserId, robloxUsername, message: 'Roblox user not found' };
+    }
+
+    const existingDiscordUser = await this.prisma.user.findFirst({
+      where: { discordUserId },
+    });
+    if (existingDiscordUser && existingDiscordUser.robloxUsername !== robloxUsername) {
+      return {
+        verified: false,
+        discordUserId,
+        robloxUsername,
+        message: 'This Discord account is already linked to a different Roblox account',
+      };
+    }
+
+    const user = await this.prisma.user.findFirst({
+      where: { robloxUsername },
+    });
+
+    if (!user) {
+      return {
+        verified: false,
+        discordUserId,
+        robloxUsername,
+        message: 'No Octergo account found for this Roblox username. Register at the dashboard first.',
+      };
+    }
+
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: {
+        discordUserId,
+        discordVerified: true,
+        robloxUserId: String(robloxUser.id),
+        robloxUsername: robloxUser.name,
+        robloxVerified: true,
+      },
+    });
+
+    return { verified: true, discordUserId, robloxUsername };
   }
 
   async handleSyncRoles(body: { communityId: string; discordUserId: string }) {
@@ -15,7 +63,6 @@ export class BotInternalService {
   }
 
   async handleSessionAnnounce(body: { sessionId: string }) {
-    // TODO: return session details for bot to announce
     return { announced: true, sessionId: body.sessionId };
   }
 }
