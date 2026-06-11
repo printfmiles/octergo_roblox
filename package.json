@@ -1,0 +1,25 @@
+{
+  "name": "octergo-platform",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "pnpm --parallel dev",
+    "dev:web": "pnpm --filter web dev",
+    "dev:api": "pnpm --filter api dev",
+    "dev:bot": "pnpm --filter bot dev",
+    "db:migrate": "pnpm --filter database prisma migrate dev",
+    "db:generate": "pnpm --filter database prisma generate",
+    "db:seed": "pnpm --filter database prisma db seed",
+    "bot:deploy-commands": "tsx scripts/deploy-commands.ts",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint"
+  },
+  "devDependencies": {
+    "discord.js": "^14.21.0",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
