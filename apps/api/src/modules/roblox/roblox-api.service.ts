@@ -11,16 +11,24 @@ export class RobloxApiService {
   }
 
   async getUserByUsername(username: string) {
-    const res = await fetch(
-      `https://users.roblox.com/v1/usernames/users`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ usernames: [username], excludeBannedUsers: true }),
-      },
-    );
+    const res = await fetch(`https://users.roblox.com/v1/usernames/users`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ usernames: [username], excludeBannedUsers: true }),
+    });
     if (!res.ok) return null;
     const data = (await res.json()) as { data?: Array<{ id: number; name: string }> };
     return data.data?.[0] ?? null;
+  }
+
+  async getUserById(userId: string) {
+    const res = await fetch(`https://users.roblox.com/v1/users/${userId}`);
+    if (!res.ok) return null;
+    const data = (await res.json()) as {
+      id: number;
+      name: string;
+      description?: string;
+    };
+    return data;
   }
 }

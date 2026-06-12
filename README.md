@@ -38,9 +38,11 @@ pnpm db:check
 pnpm db:generate
 pnpm db:migrate
 
-# Start all apps in dev mode
+# Start all apps in dev mode (does not re-run prisma generate)
 pnpm dev
 ```
+
+> **Windows:** If `pnpm db:generate` fails with `EPERM`, stop `pnpm dev` first — the API locks Prisma's query engine DLL while running.
 
 ## Individual apps
 

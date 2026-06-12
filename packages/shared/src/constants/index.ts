@@ -1,4 +1,4 @@
-import { SubscriptionPlan } from '../enums/index.ts';
+import { SubscriptionPlan } from '../enums';
 
 export const PLAN_LIMITS = {
   [SubscriptionPlan.STARTER]: {
@@ -32,7 +32,8 @@ export const API_ROUTES = {
     ME: '/auth/me',
   },
   VERIFICATION: {
-    ROBLOX: '/verification/roblox',
+    ROBLOX_START: '/verification/roblox/start',
+    ROBLOX_CHECK: '/verification/roblox/check',
     DISCORD: '/verification/discord',
   },
   COMMUNITIES: '/communities',

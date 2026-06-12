@@ -1,5 +1,7 @@
 import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../auth/auth.guard';
+import { CheckRobloxVerificationDto } from './dto/check-roblox-verification.dto';
+import { StartRobloxVerificationDto } from './dto/start-roblox-verification.dto';
 import { DiscordVerificationService } from './discord-verification.service';
 import { RobloxVerificationService } from './roblox-verification.service';
 
@@ -11,12 +13,20 @@ export class VerificationController {
     private readonly discordVerification: DiscordVerificationService,
   ) {}
 
-  @Post('roblox')
-  verifyRoblox(
+  @Post('roblox/start')
+  startRoblox(
     @Req() req: { user: { sub: string } },
-    @Body() body: { robloxUsername: string },
+    @Body() body: StartRobloxVerificationDto,
   ) {
-    return this.robloxVerification.verify(req.user.sub, body.robloxUsername);
+    return this.robloxVerification.start(req.user.sub, body.robloxUsername);
+  }
+
+  @Post('roblox/check')
+  checkRoblox(
+    @Req() req: { user: { sub: string } },
+    @Body() body: CheckRobloxVerificationDto,
+  ) {
+    return this.robloxVerification.check(req.user.sub, body.verificationId);
   }
 
   @Post('discord')
