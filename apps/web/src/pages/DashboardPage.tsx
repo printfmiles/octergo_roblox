@@ -1,53 +1,41 @@
-import { Routes, Route } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { DashboardLayout } from '../layouts/DashboardLayout';
-import { PageHeader } from '../components/PageHeader';
+import { DashboardDataProvider } from '../lib/store';
+import { OverviewView } from '../features/overview/OverviewView';
+import { ActivityView } from '../features/activity/ActivityView';
+import { RobloxSetupView } from '../features/roblox/RobloxSetupView';
+import { DiscordSetupView } from '../features/discord/DiscordSetupView';
 import { CommunitiesView } from '../features/communities/CommunitiesView';
 import { MembersView } from '../features/members/MembersView';
+import { RoleMappingView } from '../features/roles/RoleMappingView';
+import { RoleSyncView } from '../features/roles/RoleSyncView';
 import { SessionsView } from '../features/sessions/SessionsView';
-import { RolesView } from '../features/roles/RolesView';
-import { LogsView } from '../features/logs/LogsView';
-
-function OverviewView() {
-  return (
-    <>
-      <PageHeader title="Dashboard" subtitle="Overview of your communities and recent activity." />
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: 16,
-        }}
-      >
-        {['Communities', 'Members', 'Sessions', 'Logs'].map((label) => (
-          <div
-            key={label}
-            style={{
-              padding: '1.25rem',
-              borderRadius: 12,
-              background: 'rgba(255,255,255,0.04)',
-              border: '1px solid rgba(255,255,255,0.08)',
-            }}
-          >
-            <p style={{ margin: 0, color: '#64748b', fontSize: 13 }}>{label}</p>
-            <p style={{ margin: '8px 0 0', fontSize: 28, fontWeight: 700 }}>—</p>
-          </div>
-        ))}
-      </div>
-    </>
-  );
-}
+import { ModerationView } from '../features/moderation/ModerationView';
+import { AuditLogsView } from '../features/logs/AuditLogsView';
+import { BillingView } from '../features/billing/BillingView';
+import { SettingsView } from '../features/settings/SettingsView';
 
 export function DashboardPage() {
   return (
-    <Routes>
-      <Route element={<DashboardLayout />}>
-        <Route index element={<OverviewView />} />
-        <Route path="communities" element={<CommunitiesView />} />
-        <Route path="members" element={<MembersView />} />
-        <Route path="sessions" element={<SessionsView />} />
-        <Route path="roles" element={<RolesView />} />
-        <Route path="logs" element={<LogsView />} />
-      </Route>
-    </Routes>
+    <DashboardDataProvider>
+      <Routes>
+        <Route element={<DashboardLayout />}>
+          <Route index element={<OverviewView />} />
+          <Route path="activity" element={<ActivityView />} />
+          <Route path="roblox-setup" element={<RobloxSetupView />} />
+          <Route path="discord-setup" element={<DiscordSetupView />} />
+          <Route path="communities" element={<CommunitiesView />} />
+          <Route path="members" element={<MembersView />} />
+          <Route path="role-mapping" element={<RoleMappingView />} />
+          <Route path="role-sync" element={<RoleSyncView />} />
+          <Route path="sessions" element={<SessionsView />} />
+          <Route path="moderation" element={<ModerationView />} />
+          <Route path="audit-logs" element={<AuditLogsView />} />
+          <Route path="billing" element={<BillingView />} />
+          <Route path="settings" element={<SettingsView />} />
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        </Route>
+      </Routes>
+    </DashboardDataProvider>
   );
 }
