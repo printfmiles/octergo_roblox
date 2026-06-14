@@ -9,5 +9,6 @@ export const env = {
   jwtRefreshSecret: requireEnv('JWT_REFRESH_SECRET'),
   botInternalSecret: requireEnv('BOT_INTERNAL_SECRET'),
   discordBotToken: optionalEnv('DISCORD_BOT_TOKEN'),
+  discordGuildId: optionalEnv('DISCORD_GUILD_ID'),
   robloxOpenCloudApiKey: optionalEnv('ROBLOX_OPEN_CLOUD_API_KEY'),
 };

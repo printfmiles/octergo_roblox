@@ -1,5 +1,6 @@
 import type {
   CommunityStatus,
+  CommunityVerificationStatus,
   ModerationAction,
   SessionStatus,
   SubscriptionPlan,
@@ -18,9 +19,11 @@ export interface ApiError {
 }
 
 export interface RoleMapping {
+  id: string;
   robloxRankId: number;
   robloxRankName: string;
   discordRoleId: string;
+  enabled: boolean;
 }
 
 export interface UserProfile {
@@ -37,19 +40,49 @@ export interface UserProfile {
 export interface CommunitySummary {
   id: string;
   name: string;
+  description: string | null;
   robloxGroupId: string;
   discordGuildId: string;
   status: CommunityStatus;
-  subscriptionPlan: SubscriptionPlan;
+  verificationStatus: CommunityVerificationStatus;
+  verificationCode: string | null;
+  verificationMethod: string | null;
+  memberCount: number;
+  verifiedAt: string | null;
+}
+
+export interface CommunityCreateResponse extends CommunitySummary {
+  verificationHint: string;
 }
 
 export interface MemberSummary {
   id: string;
   robloxUserId: string;
   robloxUsername: string;
+  rankId: number | null;
   rankName: string;
   warnings: number;
   verificationStatus: VerificationStatus;
+  robloxJoinedAt: string | null;
+  isActive: boolean;
+}
+
+export interface MemberSyncResult {
+  communityId: string;
+  synced: number;
+  created: number;
+  updated: number;
+  deactivated: number;
+  rankChanges: number;
+}
+
+export interface RoleSyncResult {
+  communityId: string;
+  membersSynced: number;
+  usersProcessed: number;
+  rolesApplied: number;
+  rolesRemoved: number;
+  failed: Array<{ discordUserId: string; robloxUsername: string; reason: string }>;
 }
 
 export interface SessionSummary {

@@ -6,7 +6,9 @@ export class BotInternalService {
   constructor(private readonly roleSyncService: RoleSyncService) {}
 
   async handleSyncRoles(body: { communityId: string; discordUserId: string }) {
-    return this.roleSyncService.syncCommunity(body.communityId);
+    return this.roleSyncService.syncCommunity(body.communityId, {
+      discordUserId: body.discordUserId,
+    });
   }
 
   async handleSessionAnnounce(body: { sessionId: string }) {

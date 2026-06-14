@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, EmptyState, Icon, Modal, ModalField, PageIntro, inputStyle, useToast } from '../../components/ui';
 import { useStore } from '../../lib/store';
-import { DAYS, type MockSession } from '../../lib/mock';
+import { DAYS, MOCK_SESSIONS, type MockSession } from '../../lib/mock';
 import { avatarColor, theme } from '../../theme';
 
 const STATUS_META: Record<MockSession['status'], { color: string; bg: string; border: string }> = {
@@ -15,7 +15,8 @@ const FILTERS = ['all', 'upcoming', 'live', 'completed', 'cancelled'] as const;
 
 export function SessionsView() {
   const toast = useToast();
-  const { sessions, setSessions, members } = useStore();
+  const { members } = useStore();
+  const [sessions, setSessions] = useState<MockSession[]>(MOCK_SESSIONS);
   const [filter, setFilter] = useState<(typeof FILTERS)[number]>('all');
   const [showForm, setShowForm] = useState(false);
   const [editId, setEditId] = useState<number | null>(null);

@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { Icon, PageIntro, useToast } from '../../components/ui';
 import type { IconName } from '../../components/ui';
-import { useStore } from '../../lib/store';
+import { useStore, type DashboardLog } from '../../lib/store';
 import { theme } from '../../theme';
-import type { MockLog } from '../../lib/mock';
 
-const ACTION_ICON: Record<MockLog['action'], IconName> = {
+type LogAction = DashboardLog['action'];
+
+const ACTION_ICON: Record<string, IconName> = {
   promote: 'arrowUp',
   demote: 'arrowDown',
   warn: 'warning',
@@ -14,7 +15,7 @@ const ACTION_ICON: Record<MockLog['action'], IconName> = {
   login: 'check',
 };
 
-const LABEL: Record<MockLog['action'], string> = {
+const LABEL: Record<string, string> = {
   promote: 'Promoted',
   demote: 'Demoted',
   warn: 'Warned',
@@ -23,7 +24,7 @@ const LABEL: Record<MockLog['action'], string> = {
   login: 'Signed in',
 };
 
-const FILTERS: { id: 'all' | MockLog['action']; label: string }[] = [
+const FILTERS: { id: 'all' | LogAction; label: string }[] = [
   { id: 'all', label: 'All' },
   { id: 'promote', label: 'Promotions' },
   { id: 'demote', label: 'Demotions' },
@@ -35,7 +36,7 @@ const FILTERS: { id: 'all' | MockLog['action']; label: string }[] = [
 export function AuditLogsView() {
   const toast = useToast();
   const { logs } = useStore();
-  const [filter, setFilter] = useState<'all' | MockLog['action']>('all');
+  const [filter, setFilter] = useState<'all' | LogAction>('all');
 
   const filtered = filter === 'all' ? logs : logs.filter((l) => l.action === filter);
 

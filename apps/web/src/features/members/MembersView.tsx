@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { PLAN_LIMITS, SubscriptionPlan } from '@octergo/shared';
 import { Badge, PageIntro, SearchInput, Table, Td, Tr, useToast } from '../../components/ui';
-import { useStore } from '../../lib/store';
+import { useStore, type DashboardMember } from '../../lib/store';
 import { avatarColor, theme } from '../../theme';
 import { ModerationModal, type ModAction } from '../moderation/ModerationModal';
-import type { MockMember } from '../../lib/mock';
 
-const STATUS_COLOR: Record<MockMember['status'], string> = {
+const STATUS_COLOR: Record<DashboardMember['status'], string> = {
   active: theme.green,
   warned: theme.amber,
   terminated: theme.red,
@@ -31,13 +30,13 @@ const ACTION_COLORS: Record<ModAction, string> = {
 
 export function MembersView() {
   const toast = useToast();
-  const { members, applyAction } = useStore();
+  const { members, applyAction, membersLoading } = useStore();
   const [search, setSearch] = useState('');
-  const [modal, setModal] = useState<{ action: ModAction; member: MockMember } | null>(null);
+  const [modal, setModal] = useState<{ action: ModAction; member: DashboardMember } | null>(null);
 
   const filtered = members.filter((m) => m.username.toLowerCase().includes(search.toLowerCase()));
 
-  function startAction(action: ModAction, member: MockMember) {
+  function startAction(action: ModAction, member: DashboardMember) {
     if (!allowed.includes(action)) {
       toast(`Upgrade your plan to use ${action}`, 'error');
       return;
@@ -47,7 +46,7 @@ export function MembersView() {
 
   return (
     <div>
-      <PageIntro title="Members" subtitle={`${members.length} members synced from your Roblox group`} />
+      <PageIntro title="Members" subtitle={membersLoading ? 'Loading members…' : `${members.length} members synced from your Roblox group`} />
 
       <div style={{ marginBottom: 16 }}>
         <SearchInput value={search} onChange={setSearch} placeholder="Search members…" />

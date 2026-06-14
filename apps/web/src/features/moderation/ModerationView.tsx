@@ -4,7 +4,7 @@ import { Badge, Card, EmptyState, Icon, PageIntro, StatCard, StatGrid, useToast 
 import { useStore } from '../../lib/store';
 import { avatarColor, theme } from '../../theme';
 import { ModerationModal, type ModAction } from './ModerationModal';
-import type { MockMember } from '../../lib/mock';
+import type { DashboardMember } from '../../lib/store';
 
 const plan = SubscriptionPlan.PRO;
 const allowed = PLAN_LIMITS[plan].actions as readonly string[];
@@ -12,12 +12,12 @@ const allowed = PLAN_LIMITS[plan].actions as readonly string[];
 export function ModerationView() {
   const toast = useToast();
   const { members, applyAction } = useStore();
-  const [modal, setModal] = useState<{ action: ModAction; member: MockMember } | null>(null);
+  const [modal, setModal] = useState<{ action: ModAction; member: DashboardMember } | null>(null);
 
   const flagged = members.filter((m) => m.warnings > 0 || m.status !== 'active');
   const totalWarnings = members.reduce((sum, m) => sum + m.warnings, 0);
 
-  function start(action: ModAction, member: MockMember) {
+  function start(action: ModAction, member: DashboardMember) {
     if (!allowed.includes(action)) {
       toast(`Upgrade your plan to use ${action}`, 'error');
       return;

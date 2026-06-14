@@ -3,6 +3,7 @@ import { SidebarLayout } from './SidebarLayout';
 import type { NavGroup } from './SidebarLayout';
 import { Icon } from '../components/ui';
 import { logout } from '../lib/auth';
+import { useCommunity } from '../lib/community-context';
 import { theme } from '../theme';
 
 const groups: NavGroup[] = [
@@ -45,6 +46,7 @@ const allLabels = groups.flatMap((g) => g.items.map((i) => ({ to: i.to, label: i
 
 export function DashboardLayout() {
   const navigate = useNavigate();
+  const { communities, activeCommunity, activeCommunityId, setActiveCommunityId } = useCommunity();
 
   function handleSignOut() {
     logout();
@@ -57,6 +59,27 @@ export function DashboardLayout() {
       allLabels={allLabels}
       rightStatus={
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          {communities.length > 0 && (
+            <select
+              value={activeCommunityId ?? ''}
+              onChange={(e) => setActiveCommunityId(e.target.value)}
+              style={{
+                padding: '5px 10px',
+                borderRadius: 8,
+                border: `1px solid ${theme.borderStrong}`,
+                background: 'rgba(0,0,0,0.25)',
+                color: theme.text,
+                fontSize: 12,
+                maxWidth: 180,
+              }}
+            >
+              {communities.map((c) => (
+                <option key={c.id} value={c.id} style={{ background: theme.bgElevated }}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+          )}
           <div
             style={{
               display: 'flex',
@@ -64,12 +87,14 @@ export function DashboardLayout() {
               gap: 6,
               padding: '5px 12px',
               borderRadius: 20,
-              background: 'rgba(34,197,94,0.08)',
-              border: '1px solid rgba(34,197,94,0.15)',
+              background: activeCommunity?.verificationStatus === 'VERIFIED' ? 'rgba(34,197,94,0.08)' : 'rgba(251,191,36,0.08)',
+              border: `1px solid ${activeCommunity?.verificationStatus === 'VERIFIED' ? 'rgba(34,197,94,0.15)' : 'rgba(251,191,36,0.2)'}`,
             }}
           >
-            <div style={{ width: 6, height: 6, borderRadius: '50%', background: theme.green }} />
-            <span style={{ fontSize: 11, color: theme.green, fontWeight: 600 }}>Connected</span>
+            <div style={{ width: 6, height: 6, borderRadius: '50%', background: activeCommunity?.verificationStatus === 'VERIFIED' ? theme.green : theme.amber }} />
+            <span style={{ fontSize: 11, color: activeCommunity?.verificationStatus === 'VERIFIED' ? theme.green : theme.amber, fontWeight: 600 }}>
+              {activeCommunity?.verificationStatus === 'VERIFIED' ? 'Verified' : 'Pending'}
+            </span>
           </div>
         </div>
       }

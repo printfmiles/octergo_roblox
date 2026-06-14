@@ -25,6 +25,13 @@ enum CommunityStatus {
   SUSPENDED
 }
 
+enum CommunityVerificationStatus {
+  PENDING
+  VERIFIED
+  PENDING_APPROVAL
+  REJECTED
+}
+
 enum SubscriptionPlan {
   STARTER
   PRO
@@ -43,6 +50,7 @@ enum ModerationAction {
   PROMOTE
   DEMOTE
   TERMINATE
+  SYNC
 }
 
 model User {
@@ -114,14 +122,22 @@ model Subscription {
 }
 
 model Community {
-  id             String          @id @default(cuid())
-  name           String
-  ownerId        String
-  robloxGroupId  String
-  discordGuildId String
-  status         CommunityStatus @default(ACTIVE)
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
+  id                 String                      @id @default(cuid())
+  name               String
+  description        String?
+  ownerId            String
+  robloxGroupId      String
+  discordGuildId     String
+  status             CommunityStatus             @default(INACTIVE)
+  verificationStatus CommunityVerificationStatus @default(PENDING)
+  verificationCode   String?
+  verificationMethod String?
+  verifiedAt         DateTime?
+  memberCount        Int                         @default(0)
+  discordWebhookUrl  String?
+  discordLogChannelId String?
+  createdAt          DateTime                    @default(now())
+  updatedAt          DateTime                    @updatedAt
 
   owner       User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   members     Member[]
@@ -139,6 +155,10 @@ model Member {
   robloxUsername     String
   rankId             Int?
   rankName           String
+  previousRankId     Int?
+  previousRankName   String?
+  robloxJoinedAt     DateTime?
+  isActive           Boolean            @default(true)
   warnings           Int                @default(0)
   verificationStatus VerificationStatus @default(PENDING)
   createdAt          DateTime           @default(now())
@@ -150,11 +170,12 @@ model Member {
 }
 
 model RoleMapping {
-  id             String @id @default(cuid())
+  id             String  @id @default(cuid())
   communityId    String
   robloxRankId   Int
   robloxRankName String
   discordRoleId  String
+  enabled        Boolean @default(true)
 
   community Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
 

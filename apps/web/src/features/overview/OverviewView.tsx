@@ -1,16 +1,20 @@
 import { PLAN_LIMITS, SubscriptionPlan } from '@octergo/shared';
 import { Card, Icon, StatCard, StatGrid } from '../../components/ui';
-import { MOCK_LOGS, MOCK_MEMBERS } from '../../lib/mock';
+import { useCommunity } from '../../lib/community-context';
+import { useStore } from '../../lib/store';
 import { theme } from '../../theme';
 
 const plan = SubscriptionPlan.PRO;
 
 export function OverviewView() {
+  const { communities } = useCommunity();
+  const { members, logs } = useStore();
+
   const stats = {
-    total: MOCK_MEMBERS.length,
-    active: MOCK_MEMBERS.filter((m) => m.status === 'active').length,
-    warned: MOCK_MEMBERS.filter((m) => m.status === 'warned').length,
-    terminated: MOCK_MEMBERS.filter((m) => m.status === 'terminated').length,
+    total: members.length,
+    active: members.filter((m) => m.status === 'active').length,
+    warned: members.filter((m) => m.status === 'warned').length,
+    terminated: members.filter((m) => m.status === 'terminated').length,
   };
 
   const actions = PLAN_LIMITS[plan].actions as readonly string[];
@@ -29,7 +33,7 @@ export function OverviewView() {
         <StatCard label="Total Members" value={stats.total} color={theme.blue} icon={<Icon name="users" size={18} color={theme.blue} />} />
         <StatCard label="Active" value={stats.active} color={theme.green} icon={<Icon name="check" size={18} color={theme.green} strokeWidth={2.4} />} />
         <StatCard label="Warned" value={stats.warned} color={theme.amber} icon={<Icon name="warning" size={18} color={theme.amber} />} />
-        <StatCard label="Communities" value={2} color={theme.accent} icon={<Icon name="box" size={18} color={theme.accent} />} />
+        <StatCard label="Communities" value={communities.length} color={theme.accent} icon={<Icon name="box" size={18} color={theme.accent} />} />
       </StatGrid>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))', gap: 16 }}>
@@ -37,7 +41,7 @@ export function OverviewView() {
           <div style={{ fontSize: 13, fontWeight: 600, color: '#fff', marginBottom: 14, letterSpacing: '-0.2px' }}>
             Recent Actions
           </div>
-          {MOCK_LOGS.slice(0, 6).map((l) => (
+          {logs.slice(0, 6).map((l) => (
             <div
               key={l.id}
               style={{
@@ -56,6 +60,7 @@ export function OverviewView() {
               <span style={{ fontSize: 11, color: theme.textDimmer }}>{l.time}</span>
             </div>
           ))}
+          {logs.length === 0 && <p style={{ fontSize: 12, color: theme.textFaint }}>No activity yet. Sync members to get started.</p>}
         </Card>
 
         <Card>

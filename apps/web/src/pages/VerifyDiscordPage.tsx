@@ -158,11 +158,16 @@ export function VerifyDiscordPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function copyCode() {
+  async function copyCommand() {
     if (!code) return;
-    navigator.clipboard.writeText(code).catch(() => {});
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    const text = `/verify code:${code}`;
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setError('Could not copy to clipboard. Select the command above and copy manually.');
+    }
   }
 
   const commandText = code ? `/verify code:${code}` : '/verify code:OCT-XXXXXX';
@@ -210,7 +215,7 @@ export function VerifyDiscordPage() {
               <div className="verify-code-step__label">Run this command in Discord:</div>
               <div className="verify-command-box">
                 <code>{commandText}</code>
-                <button type="button" className="verify-copy-btn" onClick={copyCode}>
+                <button type="button" className="verify-copy-btn" onClick={copyCommand}>
                   {copied ? 'Copied!' : 'Copy'}
                 </button>
               </div>

@@ -15,6 +15,13 @@ export enum CommunityStatus {
   SUSPENDED = 'SUSPENDED',
 }
 
+export enum CommunityVerificationStatus {
+  PENDING = 'PENDING',
+  VERIFIED = 'VERIFIED',
+  PENDING_APPROVAL = 'PENDING_APPROVAL',
+  REJECTED = 'REJECTED',
+}
+
 export enum SubscriptionPlan {
   STARTER = 'STARTER',
   PRO = 'PRO',
@@ -33,4 +40,5 @@ export enum ModerationAction {
   PROMOTE = 'PROMOTE',
   DEMOTE = 'DEMOTE',
   TERMINATE = 'TERMINATE',
+  SYNC = 'SYNC',
 }

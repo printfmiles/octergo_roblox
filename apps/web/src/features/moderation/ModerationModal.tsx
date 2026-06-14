@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Modal, inputStyle } from '../../components/ui';
-import { RANKS, type MockMember } from '../../lib/mock';
+import { RANKS } from '../../lib/mock';
+import type { DashboardMember } from '../../lib/store';
 import { theme } from '../../theme';
 
 export type ModAction = 'promote' | 'demote' | 'warn' | 'terminate';
@@ -14,7 +15,7 @@ export const ACTION_COLOR: Record<ModAction, string> = {
 
 interface ModerationModalProps {
   action: ModAction;
-  member: MockMember;
+  member: DashboardMember;
   onClose: () => void;
   onConfirm: (newRank: string, reason: string) => void;
 }

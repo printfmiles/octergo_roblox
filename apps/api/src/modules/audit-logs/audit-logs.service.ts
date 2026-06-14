@@ -10,6 +10,9 @@ export class AuditLogsService {
       where: { communityId },
       orderBy: { createdAt: 'desc' },
       take: 100,
+      include: {
+        executor: { select: { username: true } },
+      },
     });
   }
 
