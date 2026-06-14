@@ -32,6 +32,21 @@ export interface RobloxVerificationCheckResponse {
   robloxVerified: boolean;
 }
 
-export interface DiscordVerificationDto {
+export interface DiscordVerificationStartResponse {
+  code: string;
+  expiresAt: string;
+  expiresInMinutes: number;
+}
+
+export type DiscordVerificationStatus =
+  | { status: 'verified'; discordUserId: string | null; discordUsername: string | null }
+  | { status: 'pending'; code: string; expiresAt: string }
+  | { status: 'expired'; code: string }
+  | { status: 'none' };
+
+export interface DiscordVerifyByCodeDto {
+  code: string;
   discordUserId: string;
+  discordUsername: string;
+  guildId?: string;
 }

@@ -29,6 +29,7 @@ export interface UserProfile {
   robloxUserId?: string;
   robloxUsername?: string;
   discordUserId?: string;
+  discordUsername?: string;
   robloxVerified: boolean;
   discordVerified: boolean;
 }

@@ -57,6 +57,7 @@ export class AuthService {
         username: true,
         robloxVerified: true,
         discordVerified: true,
+        discordUsername: true,
       },
     });
   }

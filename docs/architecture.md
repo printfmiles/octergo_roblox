@@ -16,14 +16,15 @@ Octergo is a pnpm monorepo with three deployable applications and three shared p
                           └─────────┘
 ```
 
-## Request flow (Discord command)
+## Request flow (Discord verification)
 
-1. User runs `/verify` in Discord
-2. Bot receives the slash command interaction
-3. Bot calls `POST /bot-internal/verify` on the API with `x-bot-secret` header
-4. API validates data and updates the database
-5. API returns result
-6. Bot replies to the user in Discord
+1. User opens **Verify Discord** on the web dashboard
+2. API generates a one-time code (e.g. `OCT-8K2M4Q`, expires in 15 minutes)
+3. User runs `/verify code:OCT-8K2M4Q` in Discord
+4. Bot receives the slash command with the code and the user's Discord ID (from Discord, not typed manually)
+5. Bot calls `POST /bot-internal/discord/verify` on the API with `x-bot-secret` header
+6. API validates the code and links the Discord user ID to the Octergo account
+7. Web dashboard polls `GET /verification/discord/status` until verified
 
 ## Shared packages
 

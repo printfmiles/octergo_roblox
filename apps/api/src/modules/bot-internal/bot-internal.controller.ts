@@ -1,15 +1,27 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { BotInternalGuard } from '../../common/guards/bot-internal.guard';
+import { DiscordVerificationService } from '../verification/discord-verification.service';
 import { BotInternalService } from './bot-internal.service';
 
 @Controller('bot-internal')
 @UseGuards(BotInternalGuard)
 export class BotInternalController {
-  constructor(private readonly botInternalService: BotInternalService) {}
+  constructor(
+    private readonly botInternalService: BotInternalService,
+    private readonly discordVerification: DiscordVerificationService,
+  ) {}
 
-  @Post('verify')
-  verify(@Body() body: { discordUserId: string; robloxUsername: string }) {
-    return this.botInternalService.handleVerify(body);
+  @Post('discord/verify')
+  verifyDiscord(
+    @Body()
+    body: {
+      code: string;
+      discordUserId: string;
+      discordUsername: string;
+      guildId?: string;
+    },
+  ) {
+    return this.discordVerification.verifyByCode(body);
   }
 
   @Post('sync-roles')

@@ -53,16 +53,36 @@ model User {
   role            UserRole @default(USER)
   robloxUserId    String?
   robloxUsername  String?
+  discordUserId     String?  @unique
+  discordUsername   String?
+  robloxVerified    Boolean  @default(false)
+  discordVerified   Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  communities            Community[]
+  auditLogs              AuditLog[] @relation("AuditLogExecutor")
+  subscription           Subscription?
+  robloxVerifications    RobloxVerification[]
+  discordVerifications   DiscordVerification[]
+}
+
+model DiscordVerification {
+  id              String   @id @default(cuid())
+  userId          String
+  code            String   @unique
+  verified        Boolean  @default(false)
   discordUserId   String?
-  robloxVerified  Boolean  @default(false)
-  discordVerified Boolean  @default(false)
+  discordUsername String?
+  guildId         String?
+  expiresAt       DateTime
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  communities          Community[]
-  auditLogs            AuditLog[] @relation("AuditLogExecutor")
-  subscription         Subscription?
-  robloxVerifications  RobloxVerification[]
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([code])
 }
 
 model RobloxVerification {

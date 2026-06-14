@@ -34,7 +34,8 @@ export const API_ROUTES = {
   VERIFICATION: {
     ROBLOX_START: '/verification/roblox/start',
     ROBLOX_CHECK: '/verification/roblox/check',
-    DISCORD: '/verification/discord',
+    DISCORD_START: '/verification/discord/start',
+    DISCORD_STATUS: '/verification/discord/status',
   },
   COMMUNITIES: '/communities',
   MEMBERS: '/members',

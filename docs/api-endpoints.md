@@ -14,8 +14,10 @@ Base URL: `http://localhost:3000`
 
 | Method | Path | Auth | Description |
 |--------|------|------|-------------|
-| POST | `/verification/roblox` | JWT | Verify Roblox username |
-| POST | `/verification/discord` | JWT | Link Discord account |
+| POST | `/verification/roblox/start` | JWT | Start Roblox bio-code verification |
+| POST | `/verification/roblox/check` | JWT | Confirm Roblox bio contains code |
+| POST | `/verification/discord/start` | JWT | Generate Discord verification code |
+| GET | `/verification/discord/status` | JWT | Poll Discord verification status |
 
 ## Communities
 
@@ -55,6 +57,6 @@ Base URL: `http://localhost:3000`
 
 | Method | Path | Description |
 |--------|------|-------------|
-| POST | `/bot-internal/verify` | Handle /verify command |
+| POST | `/bot-internal/discord/verify` | Handle `/verify` slash command with code |
 | POST | `/bot-internal/sync-roles` | Handle /sync_roles command |
 | POST | `/bot-internal/session-announce` | Handle /session_announce command |

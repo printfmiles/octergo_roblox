@@ -3,24 +3,34 @@ import { backendApi } from '../services/backend-api.service';
 
 export const verifyCommandData = new SlashCommandBuilder()
   .setName('verify')
-  .setDescription('Link your Roblox account to your Discord account')
+  .setDescription('Link your Discord account to your Octergo account')
   .addStringOption((opt) =>
-    opt.setName('roblox_username').setDescription('Your Roblox username').setRequired(true),
+    opt
+      .setName('code')
+      .setDescription('Your Octergo verification code (e.g. OCT-8K2M4Q)')
+      .setRequired(true),
   );
+
+interface VerifyResult {
+  verified: boolean;
+  message?: string;
+}
 
 export async function verifyCommand(interaction: ChatInputCommandInteraction) {
   await interaction.deferReply({ ephemeral: true });
 
-  const robloxUsername = interaction.options.getString('roblox_username', true);
+  const code = interaction.options.getString('code', true).trim().toUpperCase();
 
-  const result = await backendApi.post<{ verified: boolean; message?: string }>('/verify', {
+  const result = await backendApi.post<VerifyResult>('/discord/verify', {
+    code,
     discordUserId: interaction.user.id,
-    robloxUsername,
+    discordUsername: interaction.user.username,
+    guildId: interaction.guildId ?? undefined,
   });
 
   await interaction.editReply(
     result.verified
-      ? `Verified **${robloxUsername}** successfully!`
-      : result.message ?? 'Verification failed. Please check your username and try again.',
+      ? `✅ ${result.message ?? 'Verified! Your Discord account is now linked to Octergo.'}`
+      : `❌ ${result.message ?? 'Invalid or expired code. Please generate a new code from the Octergo dashboard.'}`,
   );
 }

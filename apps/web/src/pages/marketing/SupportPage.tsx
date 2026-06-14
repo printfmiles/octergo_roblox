@@ -14,7 +14,7 @@ const docs: { icon: IconName; title: string; desc: string; color: string }[] = [
 ];
 
 const faqs = [
-  { q: 'The Discord bot isn’t posting logs', a: 'Make sure the bot has permission to send messages and embeds in your configured log channel, then send a test message from Discord Bot Setup.' },
+  { q: 'How do I verify Discord?', a: 'Open Verify Discord on the dashboard, copy your code (e.g. OCT-8K2M4Q), then run /verify code:OCT-8K2M4Q in Discord. The page updates automatically when verified.' },
   { q: 'Roblox verification keeps failing', a: 'Confirm the exact code is in your Roblox profile bio and that you saved your profile before clicking verify.' },
   { q: 'Role sync seems delayed', a: 'Scheduled syncs run periodically; use “Sync now” on the Role Sync page to force an immediate sync.' },
 ];

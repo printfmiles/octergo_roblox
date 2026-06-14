@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../auth/auth.guard';
 import { CheckRobloxVerificationDto } from './dto/check-roblox-verification.dto';
 import { StartRobloxVerificationDto } from './dto/start-roblox-verification.dto';
@@ -29,11 +29,13 @@ export class VerificationController {
     return this.robloxVerification.check(req.user.sub, body.verificationId);
   }
 
-  @Post('discord')
-  verifyDiscord(
-    @Req() req: { user: { sub: string } },
-    @Body() body: { discordUserId: string },
-  ) {
-    return this.discordVerification.verify(req.user.sub, body.discordUserId);
+  @Post('discord/start')
+  startDiscord(@Req() req: { user: { sub: string } }) {
+    return this.discordVerification.start(req.user.sub);
+  }
+
+  @Get('discord/status')
+  discordStatus(@Req() req: { user: { sub: string } }) {
+    return this.discordVerification.getStatus(req.user.sub);
   }
 }
