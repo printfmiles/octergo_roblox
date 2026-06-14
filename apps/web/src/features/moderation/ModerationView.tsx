@@ -27,7 +27,7 @@ export function ModerationView() {
 
   return (
     <div>
-      <PageIntro title="Moderation" subtitle="Review flagged members and take action" />
+      <PageIntro subtitle="Review flagged members and take action" />
 
       <StatGrid columns={3}>
         <StatCard label="Flagged members" value={flagged.length} color={theme.amber} icon={<Icon name="warning" size={18} color={theme.amber} />} />

@@ -208,7 +208,6 @@ export function CommunitiesView() {
   return (
     <div>
       <PageIntro
-        title="Communities"
         subtitle="Link your Roblox groups to Octergo"
         action={
           <Button onClick={() => setShowModal(true)}>

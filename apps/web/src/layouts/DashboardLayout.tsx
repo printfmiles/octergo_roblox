@@ -2,9 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import { SidebarLayout } from './SidebarLayout';
 import type { NavGroup } from './SidebarLayout';
 import { Icon } from '../components/ui';
-import { logout } from '../lib/auth';
+import { useAuth, userSubtitle } from '../lib/auth-context';
 import { useCommunity } from '../lib/community-context';
-import { theme } from '../theme';
+import { initials, theme } from '../theme';
 
 const groups: NavGroup[] = [
   {
@@ -46,11 +46,16 @@ const allLabels = groups.flatMap((g) => g.items.map((i) => ({ to: i.to, label: i
 
 export function DashboardLayout() {
   const navigate = useNavigate();
+  const { user, loading: userLoading, signOut } = useAuth();
   const { communities, activeCommunity, activeCommunityId, setActiveCommunityId } = useCommunity();
 
+  const displayName = user?.username ?? '…';
+  const displaySubtitle = user ? userSubtitle(user, communities.length) : '';
+  const avatarInitials = user ? initials(user.username) : '…';
+
   function handleSignOut() {
-    logout();
-    navigate('/');
+    signOut();
+    navigate('/login');
   }
 
   return (
@@ -154,16 +159,38 @@ export function DashboardLayout() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: 12,
+                fontSize: 11,
                 fontWeight: 700,
                 color: '#fff',
+                flexShrink: 0,
               }}
             >
-              A
+              {avatarInitials}
             </div>
-            <div style={{ flex: 1, overflow: 'hidden' }}>
-              <div style={{ fontSize: 12, fontWeight: 600, color: theme.text }}>Admin</div>
-              <div style={{ fontSize: 10, color: theme.textDim }}>Community Owner</div>
+            <div style={{ flex: 1, overflow: 'hidden', minWidth: 0 }}>
+              <div
+                style={{
+                  fontSize: 12,
+                  fontWeight: 600,
+                  color: theme.text,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {userLoading ? 'Loading…' : displayName}
+              </div>
+              <div
+                style={{
+                  fontSize: 10,
+                  color: theme.textDim,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {userLoading ? '' : displaySubtitle}
+              </div>
             </div>
           </div>
           <button

@@ -27,7 +27,7 @@ export function AdminNotificationsView() {
 
   return (
     <div style={{ maxWidth: 720 }}>
-      <PageIntro title="Notifications" subtitle="Broadcast announcements to community owners" />
+      <PageIntro subtitle="Broadcast announcements to community owners" />
 
       <Card padding="1.5rem" style={{ marginBottom: 16 }}>
         <div style={{ fontSize: 15, fontWeight: 600, color: '#fff', marginBottom: 16 }}>New broadcast</div>

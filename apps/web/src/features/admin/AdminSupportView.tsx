@@ -31,7 +31,7 @@ export function AdminSupportView() {
 
   return (
     <div>
-      <PageIntro title="Support Tickets" subtitle={`${tickets.filter((t) => t.status !== 'closed').length} open tickets`} />
+      <PageIntro subtitle={`${tickets.filter((t) => t.status !== 'closed').length} open tickets`} />
 
       <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap' }}>
         {FILTERS.map((f) => (

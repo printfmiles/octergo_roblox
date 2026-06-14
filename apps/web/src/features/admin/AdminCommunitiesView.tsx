@@ -9,7 +9,7 @@ export function AdminCommunitiesView() {
 
   return (
     <div>
-      <PageIntro title="Communities" subtitle="Every Roblox community linked to Octergo" />
+      <PageIntro subtitle="Every Roblox community linked to Octergo" />
       <div style={{ marginBottom: 16 }}>
         <SearchInput value={search} onChange={setSearch} placeholder="Search communities…" />
       </div>

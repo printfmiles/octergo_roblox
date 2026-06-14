@@ -16,7 +16,7 @@ export function AdminSubscriptionsView() {
 
   return (
     <div>
-      <PageIntro title="Subscriptions" subtitle="Billing status across all customers" />
+      <PageIntro subtitle="Billing status across all customers" />
 
       <StatGrid columns={3}>
         <StatCard label="Active MRR" value={`$${(mrr * 36).toFixed(0)}`} color={theme.green} icon={<Icon name="card" size={18} color={theme.green} />} />

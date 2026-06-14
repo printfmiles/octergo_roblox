@@ -17,7 +17,7 @@ export function AdminLogsView() {
 
   return (
     <div>
-      <PageIntro title="Logs & Errors" subtitle="Platform operational events and error stream" />
+      <PageIntro subtitle="Platform operational events and error stream" />
 
       <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap' }}>
         {FILTERS.map((f) => (

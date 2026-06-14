@@ -31,7 +31,7 @@ export function ActivityView() {
 
   return (
     <div>
-      <PageIntro title="Activity" subtitle="Action analytics and monthly quota usage" />
+      <PageIntro subtitle="Action analytics and monthly quota usage" />
 
       <StatGrid>
         <StatCard label="Actions (7d)" value={136} color={theme.accent} icon={<Icon name="activity" size={18} color={theme.accent} />} />

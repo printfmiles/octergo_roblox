@@ -7,6 +7,7 @@ import { GradBtn } from '../components/auth/GradBtn';
 import { Steps } from '../components/auth/Steps';
 import { ApiError } from '../lib/api';
 import { register } from '../lib/auth';
+import { useAuth } from '../lib/auth-context';
 
 function getErrorMessage(err: unknown): string {
   if (err instanceof ApiError) {
@@ -20,6 +21,7 @@ function getErrorMessage(err: unknown): string {
 
 export function RegisterPage() {
   const navigate = useNavigate();
+  const { refreshUser } = useAuth();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -47,6 +49,7 @@ export function RegisterPage() {
     setLoading(true);
     try {
       await register(email, password, username);
+      await refreshUser();
       navigate('/verify/roblox');
     } catch (err) {
       setError(getErrorMessage(err));

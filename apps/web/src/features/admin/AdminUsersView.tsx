@@ -19,7 +19,7 @@ export function AdminUsersView() {
 
   return (
     <div>
-      <PageIntro title="Users" subtitle={`${users.length} accounts across the platform`} />
+      <PageIntro subtitle={`${users.length} accounts across the platform`} />
       <div style={{ marginBottom: 16 }}>
         <SearchInput value={search} onChange={setSearch} placeholder="Search by username or email…" />
       </div>

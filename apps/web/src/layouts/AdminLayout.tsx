@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { SidebarLayout } from './SidebarLayout';
 import type { NavGroup } from './SidebarLayout';
 import { Icon } from '../components/ui';
-import { logout } from '../lib/auth';
+import { useAuth } from '../lib/auth-context';
 import { theme } from '../theme';
 
 const groups: NavGroup[] = [
@@ -35,10 +35,11 @@ const allLabels = groups.flatMap((g) => g.items.map((i) => ({ to: i.to, label: i
 
 export function AdminLayout() {
   const navigate = useNavigate();
+  const { signOut } = useAuth();
 
   function handleSignOut() {
-    logout();
-    navigate('/');
+    signOut();
+    navigate('/login');
   }
 
   return (

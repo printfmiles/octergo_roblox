@@ -18,7 +18,7 @@ export function BillingView() {
 
   return (
     <div style={{ maxWidth: 880 }}>
-      <PageIntro title="Billing" subtitle="Manage your subscription and payment method" />
+      <PageIntro subtitle="Manage your subscription and payment method" />
 
       <Card padding="1.5rem" style={{ marginBottom: 16 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>

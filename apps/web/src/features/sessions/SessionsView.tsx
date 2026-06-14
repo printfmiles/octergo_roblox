@@ -73,7 +73,6 @@ export function SessionsView() {
   return (
     <div>
       <PageIntro
-        title="Sessions"
         subtitle={`${sessions.filter((s) => s.status === 'upcoming').length} upcoming · ${sessions.filter((s) => s.status === 'live').length} live`}
         action={
           <Button

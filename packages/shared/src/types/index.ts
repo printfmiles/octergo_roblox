@@ -4,6 +4,7 @@ import type {
   ModerationAction,
   SessionStatus,
   SubscriptionPlan,
+  UserRole,
   VerificationStatus,
 } from '../enums';
 
@@ -29,12 +30,16 @@ export interface RoleMapping {
 export interface UserProfile {
   id: string;
   email: string;
+  username: string;
+  role: UserRole;
   robloxUserId?: string;
   robloxUsername?: string;
   discordUserId?: string;
   discordUsername?: string;
   robloxVerified: boolean;
   discordVerified: boolean;
+  notifyDiscord?: boolean;
+  notifyEmail?: boolean;
 }
 
 export interface CommunitySummary {

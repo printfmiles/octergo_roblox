@@ -46,7 +46,7 @@ export function MembersView() {
 
   return (
     <div>
-      <PageIntro title="Members" subtitle={membersLoading ? 'Loading members…' : `${members.length} members synced from your Roblox group`} />
+      <PageIntro subtitle={membersLoading ? 'Loading members…' : `${members.length} members synced from your Roblox group`} />
 
       <div style={{ marginBottom: 16 }}>
         <SearchInput value={search} onChange={setSearch} placeholder="Search members…" />

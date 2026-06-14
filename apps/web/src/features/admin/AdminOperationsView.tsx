@@ -9,7 +9,7 @@ export function AdminOperationsView() {
 
   return (
     <div style={{ maxWidth: 760 }}>
-      <PageIntro title="Operations" subtitle="Platform controls and live service health" />
+      <PageIntro subtitle="Platform controls and live service health" />
 
       <Card
         padding="1.5rem"

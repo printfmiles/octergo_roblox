@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN "notifyDiscord" BOOLEAN NOT NULL DEFAULT true,
+ADD COLUMN "notifyEmail" BOOLEAN NOT NULL DEFAULT false;

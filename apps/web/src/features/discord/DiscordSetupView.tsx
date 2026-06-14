@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Card, Icon, useToast, inputStyle } from '../../components/ui';
+import { Card, Icon, PageIntro, useToast, inputStyle } from '../../components/ui';
 import { theme } from '../../theme';
 
 export function DiscordSetupView() {
@@ -19,27 +19,9 @@ export function DiscordSetupView() {
 
   return (
     <div style={{ maxWidth: 640 }}>
+      <PageIntro subtitle="Invite the bot and configure logging" />
+
       <Card style={{ marginBottom: 16 }} padding="1.5rem">
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
-          <div
-            style={{
-              width: 40,
-              height: 40,
-              borderRadius: 11,
-              background: 'rgba(129,140,248,0.12)',
-              border: '1px solid rgba(129,140,248,0.3)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Icon name="discord" size={20} color={theme.blue} />
-          </div>
-          <div>
-            <div style={{ fontSize: 15, fontWeight: 700, color: '#fff' }}>Discord Bot</div>
-            <div style={{ fontSize: 12, color: theme.textFaint }}>Invite the bot and configure logging</div>
-          </div>
-        </div>
 
         <a
           href="https://discord.com/oauth2/authorize"

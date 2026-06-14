@@ -10,6 +10,12 @@ export class ApiError extends Error {
   }
 }
 
+function notifyUnauthorized() {
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+  window.dispatchEvent(new CustomEvent('octergo:unauthorized'));
+}
+
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const token = localStorage.getItem('accessToken');
   const headers: HeadersInit = {
@@ -26,6 +32,10 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
     res = await fetch(`${API_URL}${path}`, { ...options, headers });
   } catch {
     throw new ApiError(0, 'Cannot reach the API. Is the backend running?');
+  }
+
+  if (res.status === 401 && !path.startsWith('/auth/login') && !path.startsWith('/auth/register')) {
+    notifyUnauthorized();
   }
 
   if (!res.ok) {

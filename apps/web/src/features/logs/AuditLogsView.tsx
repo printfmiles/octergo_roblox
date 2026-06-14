@@ -43,7 +43,6 @@ export function AuditLogsView() {
   return (
     <div>
       <PageIntro
-        title="Audit Logs"
         subtitle="A complete trail of every action taken in your community"
         action={
           <button

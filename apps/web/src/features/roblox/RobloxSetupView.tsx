@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Card, Icon, useToast, inputStyle } from '../../components/ui';
+import { Card, Icon, PageIntro, useToast, inputStyle } from '../../components/ui';
 import { theme } from '../../theme';
 
 export function RobloxSetupView() {
@@ -9,6 +9,8 @@ export function RobloxSetupView() {
 
   return (
     <div style={{ maxWidth: 640 }}>
+      <PageIntro subtitle="Link the Roblox group Octergo will manage" />
+
       <Card style={{ marginBottom: 16 }} padding="1.5rem">
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
           <div
@@ -24,10 +26,6 @@ export function RobloxSetupView() {
             }}
           >
             <Icon name="roblox" size={20} color={theme.accent} />
-          </div>
-          <div>
-            <div style={{ fontSize: 15, fontWeight: 700, color: '#fff' }}>Roblox Connection</div>
-            <div style={{ fontSize: 12, color: theme.textFaint }}>Link the Roblox group Octergo will manage</div>
           </div>
           <div
             style={{

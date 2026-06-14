@@ -50,7 +50,7 @@ export function RoleSyncView() {
 
   return (
     <div style={{ maxWidth: 760 }}>
-      <PageIntro title="Role Sync" subtitle="Keep Discord roles in sync with Roblox ranks" />
+      <PageIntro subtitle="Keep Discord roles in sync with Roblox ranks" />
 
       {!activeCommunityId && (
         <p style={{ fontSize: 13, color: theme.amber, marginBottom: 16 }}>

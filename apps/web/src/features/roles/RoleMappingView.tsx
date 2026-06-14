@@ -89,7 +89,6 @@ export function RoleMappingView() {
   return (
     <div>
       <PageIntro
-        title="Role Mapping"
         subtitle="Map Roblox group ranks to Discord roles"
         action={
           <Button onClick={() => setShowModal(true)} disabled={!activeCommunityId}>

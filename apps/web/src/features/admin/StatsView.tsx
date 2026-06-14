@@ -17,7 +17,7 @@ export function StatsView() {
 
   return (
     <div>
-      <PageIntro title="Platform Stats" subtitle="Octergo-wide metrics and health" />
+      <PageIntro subtitle="Octergo-wide metrics and health" />
 
       <StatGrid>
         <StatCard label="Total users" value={ADMIN_USERS.length * 36} color={theme.accent} icon={<Icon name="users" size={18} color={theme.accent} />} sub="+12% this month" />

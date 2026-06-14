@@ -12,33 +12,53 @@ export interface AuthUser {
   username: string;
 }
 
-export async function login(email: string, password: string): Promise<AuthUser> {
+const ACCESS_TOKEN_KEY = 'accessToken';
+const REFRESH_TOKEN_KEY = 'refreshToken';
+
+export function getAccessToken(): string | null {
+  return localStorage.getItem(ACCESS_TOKEN_KEY);
+}
+
+export function loadStoredSession(): boolean {
+  return !!getAccessToken();
+}
+
+export function saveSession(tokens: AuthTokens) {
+  localStorage.setItem(ACCESS_TOKEN_KEY, tokens.accessToken);
+  localStorage.setItem(REFRESH_TOKEN_KEY, tokens.refreshToken);
+}
+
+export function clearSession() {
+  localStorage.removeItem(ACCESS_TOKEN_KEY);
+  localStorage.removeItem(REFRESH_TOKEN_KEY);
+}
+
+export async function login(email: string, password: string): Promise<AuthTokens> {
   const tokens = await api.post<AuthTokens>(API_ROUTES.AUTH.LOGIN, { email, password });
-  localStorage.setItem('accessToken', tokens.accessToken);
-  localStorage.setItem('refreshToken', tokens.refreshToken);
-  return api.get<AuthUser>(API_ROUTES.AUTH.ME);
+  saveSession(tokens);
+  return tokens;
 }
 
 export async function register(
   email: string,
   password: string,
   username: string,
-): Promise<AuthUser> {
+): Promise<AuthTokens> {
   const tokens = await api.post<AuthTokens>(API_ROUTES.AUTH.REGISTER, {
     email,
     password,
     username,
   });
-  localStorage.setItem('accessToken', tokens.accessToken);
-  localStorage.setItem('refreshToken', tokens.refreshToken);
-  return api.get<AuthUser>(API_ROUTES.AUTH.ME);
+  saveSession(tokens);
+  return tokens;
 }
 
+/** @deprecated Use useAuth().signOut() */
 export function logout() {
-  localStorage.removeItem('accessToken');
-  localStorage.removeItem('refreshToken');
+  clearSession();
 }
 
+/** @deprecated Use useAuth().isAuthenticated */
 export function isAuthenticated(): boolean {
-  return !!localStorage.getItem('accessToken');
+  return loadStoredSession();
 }

@@ -1,10 +1,11 @@
 import { FormEvent, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthShell } from '../components/auth/AuthShell';
 import { ErrMsg } from '../components/auth/ErrMsg';
 import { Field } from '../components/auth/Field';
 import { GradBtn } from '../components/auth/GradBtn';
 import { ApiError } from '../lib/api';
+import { useAuth } from '../lib/auth-context';
 import { login } from '../lib/auth';
 
 function getErrorMessage(err: unknown): string {
@@ -22,6 +23,10 @@ function getErrorMessage(err: unknown): string {
 
 export function LoginPage() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { refreshUser } = useAuth();
+  const from = (location.state as { from?: string } | null)?.from;
+  const redirectTo = from?.startsWith('/') ? from : '/dashboard';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -39,7 +44,8 @@ export function LoginPage() {
     setLoading(true);
     try {
       await login(email, password);
-      navigate('/dashboard');
+      await refreshUser();
+      navigate(redirectTo, { replace: true });
     } catch (err) {
       setError(getErrorMessage(err));
     } finally {
